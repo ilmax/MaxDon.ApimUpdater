@@ -10,7 +10,7 @@ This tool uses the Management SDK to interact with the Azure API Management serv
 2. Install the tool using the following command:
 
 ```bash
-dotnet tool install ApiManagementApiImporter -g
+dotnet tool install MaxDon.ApimUpdater -g
 ```
 3. Run the tool using the following command:
 
