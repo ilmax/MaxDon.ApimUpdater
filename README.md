@@ -57,7 +57,7 @@ Copyright (C) 2023 Massimiliano Donini
 
 ## Samples
 
-### GitHub Actions reusable workflow with OIDC login
+### GitHub Actions reusable workflow with OIDC login and App Service
 
 ```yaml
 on:
@@ -67,9 +67,6 @@ on:
         required: true
         type: string    
       site-name:
-        required: true
-        type: string
-      environment:
         required: true
         type: string
     secrets:
