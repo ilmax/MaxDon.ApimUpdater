@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ApiManagementApiImporter": {
+      "commandName": "Project",
+      "commandLineArgs": " apim --api-name rnhb-origination-bsprioritization-emr --svc https://rnhb-origination-bsprioritization-emr.azurewebsites.net --spec-url https://rnhb-origination-bsprioritization-emr.azurewebsites.net/swagger/v1/swagger.json --spec-format openapi-link --sub-id f473425e-6013-4ab6-8254-d33bb2172761"
+    }
+  }
+}
