@@ -19,7 +19,7 @@ jobs:
         run: dotnet build -c Release
 
       - name: Pack nuget
-        run: dotnet pack MaxDon.ApimUpdater/MaxDon.ApimUpdater.csproj -c Release -o ./artifacts
+        run: dotnet pack MaxDon.ApimUpdater/MaxDon.ApimUpdater.csproj -c Release -o ./artifacts /p:RepositoryCommit=${{ github.sha }}
 
       - name: Install nuget validator
         run: dotnet tool update Meziantou.Framework.NuGetPackageValidation.Tool --global
