@@ -2,7 +2,6 @@ name: Publish NuGet Package
 
 on:
   workflow_dispatch:
-  pull_request:
     
 
 jobs:
@@ -51,4 +50,4 @@ jobs:
           title: 'Release version ${{needs.validate.outputs.version}}'
 
       - name: Publish package
-        run: dotnet nuget push ./artifacts/*.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
+        run: dotnet nuget push ./artifacts/*.nupkg -k ${{ secrets.NUGET_KEY }} -s https://api.nuget.org/v3/index.json
