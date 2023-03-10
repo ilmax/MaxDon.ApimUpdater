@@ -1,0 +1,48 @@
+name: Publish NuGet Package
+
+on:
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    outputs:
+      version: v${{steps.get-version.outputs.version}}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+
+      - uses: kzrnm/get-net-sdk-project-versions-action@v1
+        id: get-version
+        with:
+          proj-path: MaxDon.ApimUpdater/MaxDon.ApimUpdater.csproj
+
+      - name: Ensure version is correct
+        run: |
+          if git rev-parse "${{steps.get-version.outputs.version}}" >/dev/null 2>&1; then
+            echo "Error: tag ${{steps.get-version.outputs.version}} already exists"
+            exit 1
+          fi
+
+  release-and-publish:
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build package
+        run: dotnet pack -c Release -o ./artifacts
+
+      - uses: 'marvinpinto/action-automatic-releases@latest'
+        with:
+          repo_token: '${{ secrets.GITHUB_TOKEN }}'
+          automatic_release_tag: ${{needs.validate.outputs.version}}
+          prerelease: false
+          title: 'Release version ${{needs.validate.outputs.version}}'
+
+      # - name: Publish package
+      #   run: dotnet nuget push ./artifacts/*.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
