@@ -24,8 +24,8 @@ jobs:
 
       - name: Ensure version is correct
         run: |
-          if git rev-parse "${{steps.get-version.outputs.version}}" >/dev/null 2>&1; then
-            echo "Error: tag ${{steps.get-version.outputs.version}} already exists"
+          if git rev-parse "v${{steps.get-version.outputs.version}}" >/dev/null 2>&1; then
+            echo "Error: tag v${{steps.get-version.outputs.version}} already exists"
             exit 1
           fi
 
@@ -44,7 +44,7 @@ jobs:
           repo_token: '${{ secrets.GITHUB_TOKEN }}'
           automatic_release_tag: ${{needs.validate.outputs.version}}
           prerelease: false
-          title: 'Release version ${{needs.validate.outputs.version}}'
+          title: 'Release version v${{needs.validate.outputs.version}}'
 
       # - name: Publish package
       #   run: dotnet nuget push ./artifacts/*.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
