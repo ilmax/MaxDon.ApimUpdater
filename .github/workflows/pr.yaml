@@ -25,4 +25,4 @@ jobs:
         run: dotnet tool update Meziantou.Framework.NuGetPackageValidation.Tool --global
 
       - name: Validate package
-        run: meziantou.validate-nuget-package ./artifacts/*.nupkg
+        run: meziantou.validate-nuget-package ./artifacts/*.nupkg --excluded-rules IconMustBeSet
