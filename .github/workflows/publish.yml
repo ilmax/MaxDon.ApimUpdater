@@ -25,7 +25,7 @@ jobs:
       - name: Ensure version is correct
         run: |
           tag=v${{steps.get-version.outputs.version}}
-          if git rev-parse -q --verify "refs/tags/$tag" >/dev/null; then
+          if [ $(git tag -l "$tag") ]; then
             echo "Error: tag $tag already exists"
             exit 1
           fi
