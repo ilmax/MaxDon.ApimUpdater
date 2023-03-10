@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  publish:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -15,8 +15,11 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v1
 
-      - name: Build package
-        run: dotnet build -c Release -o ./artifacts
+      - name: Build Solution
+        run: dotnet build -c Release
+
+      - name: Pack nuget
+        run: dotnet pack MaxDon.ApimUpdater/MaxDon.ApimUpdater.csproj -c Release -o ./artifacts
 
       - name: Install nuget validator
         run: dotnet tool update Meziantou.Framework.NuGetPackageValidation.Tool --global
