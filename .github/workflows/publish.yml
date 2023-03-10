@@ -2,6 +2,8 @@ name: Publish NuGet Package
 
 on:
   workflow_dispatch:
+  pull_request:
+    
 
 jobs:
   validate:
