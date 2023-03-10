@@ -5,21 +5,29 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	<PackAsTool>true</PackAsTool>
-	<ToolCommandName>yaat</ToolCommandName>
-	<Title>Azure APi Management api importer tool</Title>
-	<Description>A tool to update an api hosted in Azure API management that uses Azure.Identity to authenticate to Azure and the Azure.ResourceManager.ApiManagement SDK, the intended usage is for CI/CD e.g. with GitHub Actions</Description>
-	<Authors>Massimiliano Donini</Authors>
-	<Version>1.0.0</Version>
-	<EnablePackageValidation>true</EnablePackageValidation>
-	<PackageTags>Azure, Api Management, Global tool</PackageTags>
-	<PackageProjectUrl>https://github.com/ilmax/MaxDon.ApimUpdater</PackageProjectUrl>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>yaat</ToolCommandName>
+    <Title>Azure APi Management api importer tool</Title>
+    <Description>A tool to update an api hosted in Azure API management that uses Azure.Identity to authenticate to Azure and the Azure.ResourceManager.ApiManagement SDK, the intended usage is for CI/CD e.g. with GitHub Actions</Description>
+    <Authors>Massimiliano Donini</Authors>
+    <Version>1.0.0</Version>
+    <EnablePackageValidation>true</EnablePackageValidation>
+    <PackageTags>Azure, Api Management, Global tool</PackageTags>
+    <PackageProjectUrl>https://github.com/ilmax/MaxDon.ApimUpdater</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/ilmax/MaxDon.ApimUpdater</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Azure.Identity" Version="1.8.2" />
     <PackageReference Include="Azure.ResourceManager.ApiManagement" Version="1.0.1" />
     <PackageReference Include="CommandLineParser" Version="2.9.1" />
+    <PackageReference Include="DotNet.ReproducibleBuilds" Version="1.1.1">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
