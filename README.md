@@ -1,4 +1,4 @@
-# MaxDon.ApimUpdater (Yet another apim tool)
+# MaxDon.ApimUpdater it's the home base repo of the yaat (Yet another apim tool) dotnet tool
 
 This dotnet global tool aims to help you import/update your Azure API Management APIs from a Swagger specification that can be retrieved from the API's backend service. This tool is supposed to be used in a CI/CD pipeline scenario.
 
@@ -6,7 +6,7 @@ This tool uses the Management SDK to interact with the Azure API Management serv
 
 ## Getting started
 
-1. Deploy a new version of the service exposed by the API to be updated
+1. Deploy a new version of the service exposed by the API that needs to be updated
 2. Install the tool using the following command:
 
 ```bash
@@ -22,6 +22,8 @@ dotnet tool install MaxDon.ApimUpdater -g
 ### Prerequisites
 
 This tool is written in dotnet 7 so the correct version of the runtime should be available on the runner.
+
+> Please note that at the moment the tool doesn't support creating a new API in apim, so the api should already be there.
 
 ## Usage
 

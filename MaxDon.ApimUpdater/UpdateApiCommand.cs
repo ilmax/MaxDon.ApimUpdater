@@ -8,6 +8,7 @@ using Azure.ResourceManager.ApiManagement.Models;
 using Azure.Core.Diagnostics;
 using Azure.Core.Pipeline;
 using Azure.Core;
+using System.Diagnostics.Tracing;
 
 namespace MaxDon.ApimUpdater;
 
@@ -43,15 +44,18 @@ internal class UpdateApiCommand : ICommand
 
     public async Task<int> ExecuteAsync()
     {
-        var sanitizer = new SanitazeHttpResponse(ApiName);
         WriteMessage("Finding subscription...");
         ArmClientOptions options = new();
         options.Diagnostics.IsLoggingEnabled = options.Diagnostics.IsLoggingContentEnabled = Verbose;
+
+        // Dirty hack to workaround https://github.com/Azure/azure-sdk-for-net/issues/34627
+        var sanitizer = new SanitazeHttpResponse(ApiName);
         options.AddPolicy(sanitizer, HttpPipelinePosition.PerCall);
+
         ArmClient client = new(GetDefaultCredentials(), default, options);
         if (Verbose)
         {
-            using AzureEventSourceListener listener = AzureEventSourceListener.CreateConsoleLogger(System.Diagnostics.Tracing.EventLevel.LogAlways);
+            using AzureEventSourceListener listener = AzureEventSourceListener.CreateConsoleLogger(EventLevel.LogAlways);
             return await RunAsync(client);
         }
 
