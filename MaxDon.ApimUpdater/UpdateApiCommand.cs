@@ -36,7 +36,7 @@ internal class UpdateApiCommand : ICommand
     [Option("sub-name", Required = false, HelpText = "The Name of the subscription, used to find the most suitable subscription if more than one are found. This has no effect is sub-id is specified.")]
     public string? SubscriptionName { get; init; }
 
-    [Option("retry", Required = false, HelpText = "The number of times to retry, max allowed valus is 10.")]
+    [Option("retry", Required = false, HelpText = "The number of times to retry, max allowed value is 10.")]
     public int Retry { get; init; } = 3;
 
     [Option("debug", Required = false, HelpText = "Enables detailed logging.")]
@@ -59,7 +59,15 @@ internal class UpdateApiCommand : ICommand
             return await RunAsync(client);
         }
 
-        return await RunAsync(client);
+        try
+        {
+            return await RunAsync(client);
+        }
+        catch (AuthenticationFailedException authFailed)
+        {
+            WriteError(authFailed.Message);
+            return 100;
+        }
 
         static DefaultAzureCredential GetDefaultCredentials() => new(new DefaultAzureCredentialOptions
         {
@@ -184,7 +192,6 @@ internal class UpdateApiCommand : ICommand
             return null;
         }
     }
-
 
     private async Task<int> UpdateApiManagementApiAsync(ApiManagementServiceResource apiManagementService)
     {
