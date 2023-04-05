@@ -90,25 +90,28 @@ internal class UpdateApiCommand : ICommand
         if (!string.IsNullOrEmpty(SubscriptionId))
         {
             var subResponse = await client.GetSubscriptions().GetAsync(SubscriptionId);
-            if (subResponse.Value is not null)
+            return subResponse.Value;
+        }
+
+        if (!string.IsNullOrEmpty(SubscriptionName))
+        {
+            var subscriptions = client.GetSubscriptions().GetAll();
+            return subscriptions.Count() switch
             {
-                return subResponse.Value;
-            }
+                0 => null,
+                1 => subscriptions.Single(),
+                _ => PickSubscription(subscriptions)
+            };
         }
 
         var subscription = client.GetDefaultSubscription();
         if (subscription is not null)
         {
+            WriteMessage($"Using the default subscription {subscription.Data.DisplayName}");
             return subscription;
         }
 
-        var subscriptions = client.GetSubscriptions().GetAll();
-        return subscriptions.Count() switch
-        {
-            0 => null,
-            1 => subscriptions.Single(),
-            _ => PickSubscription(subscriptions)
-        };
+        return null;
     }
 
     private SubscriptionResource? PickSubscription(Pageable<SubscriptionResource> subscriptions)
@@ -134,7 +137,7 @@ internal class UpdateApiCommand : ICommand
         var apiManagementService = GetApiManagement(subscription);
         if (apiManagementService is null)
         {
-            WriteMessage("Unable to find an API Management Service");
+            WriteError($"Unable to find an API Management Service on subscription {subscription.Data.DisplayName}");
             return 2;
         }
 
@@ -169,31 +172,45 @@ internal class UpdateApiCommand : ICommand
         return null;
     }
 
+    private async Task<ApiResource?> GetApiResource(ApiManagementServiceResource apiManagementService)
+    {
+        try
+        {
+            var api = await apiManagementService.GetApiAsync(ApiName);
+            return api.Value;
+        }
+        catch (RequestFailedException rfex) when (rfex.Status == 404)
+        {
+            return null;
+        }
+    }
+
+
     private async Task<int> UpdateApiManagementApiAsync(ApiManagementServiceResource apiManagementService)
     {
-        var api = await apiManagementService.GetApiAsync(ApiName);
-        if (api.Value is null)
+        var api = await GetApiResource(apiManagementService);
+        if (api is null)
         {
-            WriteError($"Unable to find API with name: {ApiName}");
+            WriteError($"Unable to find API with name: {ApiName} on service {apiManagementService.Data.Name}");
             return 3;
         }
 
         var collection = apiManagementService.GetApis();
         ApiCreateOrUpdateContent content = new()
         {
-            DisplayName = api.Value.Data.DisplayName,
-            Path = api.Value.Data.Path,
+            DisplayName = api.Data.DisplayName,
+            Path = api.Data.Path,
             Format = Format,
             Value = SpecificationUrl,
             ServiceUri = new Uri(ServiceUrl),
         };
 
-        foreach (var protocol in api.Value.Data.Protocols)
+        foreach (var protocol in api.Data.Protocols)
         {
             content.Protocols.Add(protocol);
         }
 
-        WriteMessage("Updating API...");
+        WriteMessage($"Updating API {ApiName} on service {apiManagementService.Data.Name}...");
         int retry = Math.Min(Retry, 10);
 
         do

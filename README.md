@@ -1,4 +1,4 @@
-# MaxDon.ApimUpdater it's the home base repo of the yaat (Yet another apim tool) dotnet tool
+# This is the home repo of the yaat (Yet another apim tool) dotnet tool
 
 This dotnet global tool aims to help you import/update your Azure API Management APIs from a Swagger specification that can be retrieved from the API's backend service. This tool is supposed to be used in a CI/CD pipeline scenario.
 
