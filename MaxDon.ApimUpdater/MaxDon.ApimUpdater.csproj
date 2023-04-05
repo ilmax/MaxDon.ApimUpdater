@@ -10,7 +10,7 @@
     <Title>Azure API Management api updater tool</Title>
     <Description>A tool to update an api hosted in Azure API management that uses Azure.Identity to authenticate to Azure and the Azure.ResourceManager.ApiManagement SDK, the intended usage is during CI/CD e.g. with GitHub Actions</Description>
     <Authors>Massimiliano Donini</Authors>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <EnablePackageValidation>true</EnablePackageValidation>
     <PackageTags>Azure, Api Management, Global tool</PackageTags>
     <PackageProjectUrl>https://github.com/ilmax/MaxDon.ApimUpdater</PackageProjectUrl>
