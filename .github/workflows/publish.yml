@@ -3,7 +3,6 @@ name: Publish NuGet Package
 on:
   workflow_dispatch:
     
-
 jobs:
   validate:
     runs-on: ubuntu-latest
@@ -19,10 +18,12 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
 
-      - uses: kzrnm/get-net-sdk-project-versions-action@v1
+      - name: Get version
         id: get-version
-        with:
-          proj-path: MaxDon.ApimUpdater/MaxDon.ApimUpdater.csproj
+        run: |
+            version=$(dotnet build --getProperty:Version)
+            echo "version=$version" >> "$GITHUB_OUTPUT"
+        working-directory: MaxDon.ApimUpdater
 
       - name: Ensure version is correct
         run: |
