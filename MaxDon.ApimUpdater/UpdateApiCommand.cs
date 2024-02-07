@@ -49,7 +49,7 @@ internal class UpdateApiCommand : ICommand
         options.Diagnostics.IsLoggingEnabled = options.Diagnostics.IsLoggingContentEnabled = Verbose;
 
         // Dirty hack to workaround https://github.com/Azure/azure-sdk-for-net/issues/34627
-        var sanitizer = new SanitazeHttpResponse(ApiName);
+        var sanitizer = new SanitizeHttpResponse(ApiName);
         options.AddPolicy(sanitizer, HttpPipelinePosition.PerCall);
 
         ArmClient client = new(GetDefaultCredentials(), default, options);
@@ -265,11 +265,11 @@ internal class UpdateApiCommand : ICommand
 }
 
 // Dirty hack to workaround https://github.com/Azure/azure-sdk-for-net/issues/34627
-public class SanitazeHttpResponse : HttpPipelineSynchronousPolicy
+public class SanitizeHttpResponse : HttpPipelineSynchronousPolicy
 {
     private readonly string _apiName;
 
-    public SanitazeHttpResponse(string apiName)
+    public SanitizeHttpResponse(string apiName)
     {
         if (string.IsNullOrEmpty(apiName))
         {
@@ -286,11 +286,10 @@ public class SanitazeHttpResponse : HttpPipelineSynchronousPolicy
             !message.Response.IsError &&
             message.Response?.ContentStream != null)
         {
-            var bdoridg = BinaryData.FromStream(message.Response.ContentStream);
-            var newContent = bdoridg.ToString().Replace("\"serviceUrl\": \"\"", "\"serviceUrl\": null");
+            var originalBinaryData = BinaryData.FromStream(message.Response.ContentStream);
+            var newContent = originalBinaryData.ToString().Replace("\"serviceUrl\": \"\"", "\"serviceUrl\": null");
             var bd = BinaryData.FromString(newContent);
-            var ms = new MemoryStream(bd.ToArray());
-            message.Response.ContentStream = ms;
+            message.Response.ContentStream = new MemoryStream(bd.ToArray());
         }
 
         base.OnReceivedResponse(message);
