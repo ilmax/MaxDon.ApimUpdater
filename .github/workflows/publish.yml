@@ -10,7 +10,7 @@ jobs:
       version: v${{steps.get-version.outputs.version}}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Fetch tags
         run: git fetch --tags origin
@@ -38,7 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Build package
         run: dotnet pack -c Release -o ./artifacts /p:RepositoryCommit=${{ github.sha }}
