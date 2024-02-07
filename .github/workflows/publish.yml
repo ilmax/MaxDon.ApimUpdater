@@ -16,7 +16,7 @@ jobs:
         run: git fetch --tags origin
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
 
       - name: Get version
         id: get-version
