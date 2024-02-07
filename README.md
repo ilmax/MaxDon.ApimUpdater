@@ -95,26 +95,26 @@ jobs:
         with:
           name: artifact
 
-      - name: 'Az CLI login'
+      - name: Az CLI login
         uses: azure/login@v1
         with:
           client-id: ${{ secrets.CLIENT_ID }}
           tenant-id: ${{ secrets.TENANT_ID }}
           subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
 
-      - name: 'Run Azure webapp deploy'
+      - name: Run Azure webapp deploy
         uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ inputs.site-name }}
           package: release.zip
 
-      - name: Install API Management tool
+      - name: Install Yaat tool
         run: |
           dotnet tool install MaxDon.ApimUpdater -g
           echo Waiting ${{ env.sleep-time }} sec to give time to the web app to re-start
           sleep ${{ env.sleep-time }}
 
-      - name: Update api management
+      - name: Update API Management API for ${{ inputs.site-name }}
         run: |
           yaat --api-name ${{ inputs.api-name }} --svc https://${{ inputs.site-name }}.azurewebsites.net \
                --spec-url https://${{ inputs.site-name }}.azurewebsites.net/swagger/v1/swagger.json --spec-format openapi-link
@@ -125,4 +125,4 @@ jobs:
 
 ## Feedback
 
-- This tool is still in early development, so please feel free to open an issue if you find a bug or have a feature request.
+- Feel free to open an issue if you find a bug or have a feature request.
