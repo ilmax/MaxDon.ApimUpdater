@@ -30,8 +30,8 @@ This tool is written in dotnet 7 so the correct version of the runtime should be
 Available command line options:
 
 ```
-MaxDon.ApimUpdater 1.0.0
-Copyright (C) 2023 Massimiliano Donini
+Yaat - Yet another APIM tool 1.1.0+35a184fd88038503826c7d453e5209ab349c77e3
+Copyright (C) 2024 Massimiliano Donini
 
   --api-name       Required. The name of the api in the API Management service.
 
@@ -39,22 +39,24 @@ Copyright (C) 2023 Massimiliano Donini
 
   --spec-url       Required. The url of the downstream service specification e.g. the swagger file.
 
-  --spec-format    Required. The type of the specification, possible values are (openapi, openapi+json, openapi+json-link, openapi-link, swagger-json, swagger-link-json, wadl-link-json, wadl-xml, wsdl and wsdl-link).
+  --spec-format    Required. The type of the specification, possible values are (openapi, openapi+json, openapi+json-link, openapi-link, swagger-json,
+                   swagger-link-json, wadl-link-json, wadl-xml, wsdl and wsdl-link).
 
-  --apim-name      The name of the API Management service, if not provided it will pick the only one present in the selected subscription, or throw if more than one are found.
+  --apim-name      The name of the API Management service, if not provided it will pick the only one present in the selected subscription, or throw if more
+                   than one are found.
 
   --sub-id         The id of the subscription, if not provided it will use the default subscription of the logged in session.
 
-  --sub-name       The Name of the subscription, used to find the most suitable subscription if more than one are found. This has no effect is sub-id is specified.
+  --sub-name       The Name of the subscription, used to find the most suitable subscription if more than one are found. This has no effect is sub-id is
+                   specified.
 
-  --retry          The number of times to retry, max allowed valus is 10.
+  --retry          The number of times to retry, max allowed value is 10.
 
   --debug          Enables detailed logging.
 
   --help           Display this help screen.
 
   --version        Display version information.
-
 ```
 
 ## Samples
