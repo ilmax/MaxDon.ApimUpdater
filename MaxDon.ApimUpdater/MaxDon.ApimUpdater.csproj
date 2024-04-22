@@ -22,7 +22,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Azure.Identity" Version="1.10.4" />
+    <PackageReference Include="Azure.Identity" Version="1.11.1" />
     <PackageReference Include="Azure.ResourceManager.ApiManagement" Version="1.1.0" />
     <PackageReference Include="CommandLineParser" Version="2.9.1" />
     <PackageReference Include="DotNet.ReproducibleBuilds" Version="1.1.1">
